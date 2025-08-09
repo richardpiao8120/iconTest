@@ -315,7 +315,19 @@
         { code: "\e9a9", name: "application-video-camera" },
         { code: "\e9aa", name: "application-wallet" },
       ];
-      // Font files to test
+      // Only test system font families independently, not as part of fontFiles
+      const systemFontFamilies = [
+        "Open Sans",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        "나눔바른고딕",
+        "Nanum Barun Gothic",
+        "맑은고딕",
+        "Malgun Gothic",
+        "sans-serif",
+      ];
+      // Font files to test (custom fonts only)
       const fontFiles = [
         "IconFont.ttf",
         "IconFont.woff",
@@ -349,8 +361,41 @@
         "SpoqaHanSansNeo-Bold.woff",
         "SpoqaHanSansNeo-Medium.woff",
       ];
-      // Dynamically create @font-face for each font file
+
+      // First, test all system font families independently
+      systemFontFamilies.forEach((fontFamily) => {
+        const container = document.getElementById("font-tests");
+        const section = document.createElement("div");
+        section.className = "font-section";
+        const title = document.createElement("div");
+        title.className = "font-title";
+        title.textContent = fontFamily + " (system font)";
+        const grid = document.createElement("div");
+        grid.className = "icon-grid";
+        testIcons.forEach((iconData) => {
+          const item = document.createElement("div");
+          item.className = "icon-item";
+          const icon = document.createElement("div");
+          icon.className = `icon`;
+          icon.style.fontFamily = fontFamily;
+          icon.innerHTML = String.fromCharCode(
+            parseInt(iconData.code.replace("\\e", ""), 16)
+          );
+          const name = document.createElement("div");
+          name.className = "icon-name";
+          name.textContent = iconData.name;
+          item.appendChild(icon);
+          item.appendChild(name);
+          grid.appendChild(item);
+        });
+        section.appendChild(title);
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+
+      // Then, test all custom font files as before
       function injectFontFace(fontFile, fontFamily) {
+        if (systemFontFamilies.includes(fontFile)) return; // skip for system fonts
         const style = document.createElement("style");
         let format = "";
         if (fontFile.endsWith(".ttf")) format = "truetype";
@@ -363,8 +408,11 @@
       }
 
       function createFontTest(fontFile, idx) {
-        const fontFamily = `font-test-${idx}`;
-        injectFontFace(fontFile, fontFamily);
+        const fontFamily = systemFontFamilies.includes(fontFile)
+          ? fontFile
+          : `font-test-${idx}`;
+        if (!systemFontFamilies.includes(fontFile))
+          injectFontFace(fontFile, fontFamily);
         const container = document.getElementById("font-tests");
         const section = document.createElement("div");
         section.className = "font-section";
