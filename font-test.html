@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Icon Font Comparison Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f5f5f5;
+      }
+      .font-section {
+        background: white;
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .font-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+        border-bottom: 2px solid #007acc;
+        padding-bottom: 5px;
+      }
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+      .icon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        background: #fafafa;
+      }
+      .icon {
+        font-size: 24px;
+        margin-bottom: 5px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .icon-name {
+        font-size: 10px;
+        text-align: center;
+        color: #666;
+        word-break: break-all;
+      }
+      /* Font face definitions */
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./IconFont.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./IconFont.woff") format("woff");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./IconFont.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./IconFont_old.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./IconFont_old.woff") format("woff");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./IconFont_old.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./asset.IconFont.48ba1881.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./asset.IconFont.3911ba7c.woff") format("woff");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./asset.IconFont.38a9a86e.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./bpmn.eot") format("embedded-opentype");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./bpmn.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./bpmn.woff") format("woff");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./bpmn.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./polestar.eot") format("embedded-opentype");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./polestar.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./polestar.woff") format("woff");
+      }
+      @font-face {
+        font-family: "nds-icon-2.6";
+        src: url("./polestar.woff2") format("woff2");
+      }
+      .font-test {
+        font-family: "nds-icon-2.6";
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Icon Font Comparison Test</h1>
+    <p>
+      This page tests different icon font files to see which ones properly
+      render icons. Look for actual icons vs. missing character boxes.
+    </p>
+    <div id="font-tests"></div>
+    <script>
+      // Common icon codes to test
+      const testIcons = [
+        { code: "\eab7", name: "application-layout-o" },
+        { code: "\ec09", name: "it-dashboard-o" },
+        { code: "\ebf6", name: "aws-amazon-eks-icon-f" },
+        { code: "\ed60", name: "logo-oracle-icon-o" },
+        { code: "\e900", name: "step-backward" },
+        { code: "\e901", name: "caret-up" },
+        { code: "\e902", name: "caret-down" },
+        { code: "\e903", name: "caret-left" },
+        { code: "\e904", name: "caret-right" },
+        { code: "\e905", name: "up-circle" },
+        { code: "\e906", name: "down-circle" },
+        { code: "\e907", name: "left-circle" },
+        { code: "\e908", name: "right-circle" },
+        { code: "\e909", name: "forward" },
+        { code: "\e90a", name: "backward" },
+        { code: "\e90b", name: "play-circle" },
+        { code: "\e90c", name: "up-square" },
+        { code: "\e90d", name: "down-square" },
+        { code: "\e90e", name: "left-square" },
+        { code: "\e90f", name: "right-square" },
+        { code: "\e910", name: "question-circle" },
+        { code: "\e911", name: "pause-circle" },
+        { code: "\e912", name: "minus-circle" },
+        { code: "\e913", name: "plus-square" },
+        { code: "\e914", name: "minus-square" },
+        { code: "\e915", name: "info-circle" },
+        { code: "\e916", name: "exclamation-circle" },
+        { code: "\e917", name: "close-circle" },
+        { code: "\e918", name: "close-square" },
+        { code: "\e919", name: "check-circle" },
+        { code: "\e91a", name: "clock-circle" },
+        { code: "\e91b", name: "warning" },
+        { code: "\e91c", name: "stop" },
+        { code: "\e91d", name: "edit" },
+        { code: "\e91e", name: "copy" },
+        { code: "\e91f", name: "delete" },
+        { code: "\e920", name: "snippets" },
+        { code: "\e921", name: "diff" },
+        { code: "\e922", name: "pie-chart" },
+        { code: "\e923", name: "fund" },
+        { code: "\e924", name: "logo-apple" },
+        { code: "\e925", name: "logo-windows" },
+        { code: "\e926", name: "logo-chrome" },
+        { code: "\e927", name: "logo-html5" },
+        { code: "\e928", name: "logo-wechat" },
+        { code: "\e929", name: "logo-youtube" },
+        { code: "\e92a", name: "logo-skype" },
+        { code: "\e92b", name: "logo-gitlab" },
+        { code: "\e92c", name: "logo-linkedin" },
+        { code: "\e92d", name: "logo-facebook" },
+        { code: "\e92e", name: "logo-codepen" },
+        { code: "\e92f", name: "logo-slack" },
+        { code: "\e930", name: "logo-instagram" },
+        { code: "\e931", name: "logo-yahoo" },
+        { code: "\e932", name: "application-account-book" },
+        { code: "\e933", name: "application-alert" },
+        { code: "\e934", name: "application-api" },
+        { code: "\e935", name: "application-audio" },
+        { code: "\e936", name: "application-bank" },
+        { code: "\e937", name: "application-bell" },
+        { code: "\e938", name: "application-book" },
+        { code: "\e939", name: "application-bug" },
+        { code: "\e93a", name: "application-bulb" },
+        { code: "\e93b", name: "application-calculator" },
+        { code: "\e93c", name: "application-build" },
+        { code: "\e93d", name: "application-calendar" },
+        { code: "\e93e", name: "application-camera" },
+        { code: "\e93f", name: "application-car" },
+        { code: "\e940", name: "application-carry-out" },
+        { code: "\e941", name: "application-code" },
+        { code: "\e942", name: "application-compass" },
+        { code: "\e943", name: "application-contacts" },
+        { code: "\e944", name: "application-container" },
+        { code: "\e945", name: "application-control" },
+        { code: "\e946", name: "application-copyright-circle" },
+        { code: "\e947", name: "application-credit-card" },
+        { code: "\e948", name: "application-crown" },
+        { code: "\e949", name: "application-customer-service" },
+        { code: "\e94a", name: "application-dashboard" },
+        { code: "\e94b", name: "application-database" },
+        { code: "\e94c", name: "application-dislike" },
+        { code: "\e94d", name: "application-dollar-circle" },
+        { code: "\e94e", name: "application-dropbox-circle" },
+        { code: "\e94f", name: "application-dropbox-square" },
+        { code: "\e950", name: "application-environment" },
+        { code: "\e951", name: "application-euro-circle" },
+        { code: "\e952", name: "application-experiment" },
+        { code: "\e953", name: "application-eye-invisible" },
+        { code: "\e954", name: "application-eye" },
+        { code: "\e955", name: "file-add" },
+        { code: "\e956", name: "file-exclamation" },
+        { code: "\e957", name: "file-image" },
+        { code: "\e958", name: "file-markdown" },
+        { code: "\e959", name: "file-pdf" },
+        { code: "\e95a", name: "file-ppt" },
+        { code: "\e95b", name: "file-text" },
+        { code: "\e95c", name: "file-unknown" },
+        { code: "\e95d", name: "file-word" },
+        { code: "\e95e", name: "file-file" },
+        { code: "\e95f", name: "application-filter" },
+        { code: "\e960", name: "application-fire" },
+        { code: "\e961", name: "application-flag" },
+        { code: "\e962", name: "application-folder" },
+        { code: "\e963", name: "application-frown" },
+        { code: "\e964", name: "application-funnel-plot" },
+        { code: "\e965", name: "application-gift" },
+        { code: "\e966", name: "application-golden" },
+        { code: "\e967", name: "logo-google-circle" },
+        { code: "\e968", name: "logo-google-plus-circle" },
+        { code: "\e969", name: "logo-google-plus-square" },
+        { code: "\e96a", name: "logo-google-square" },
+        { code: "\e96b", name: "application-heart" },
+        { code: "\e96c", name: "application-home" },
+        { code: "\e96d", name: "application-idcard" },
+        { code: "\e96e", name: "application-ie-circle" },
+        { code: "\e96f", name: "application-ie-square" },
+        { code: "\e970", name: "application-insurance" },
+        { code: "\e971", name: "application-interaction" },
+        { code: "\e972", name: "application-layout" },
+        { code: "\e973", name: "application-like" },
+        { code: "\e974", name: "application-lock" },
+        { code: "\e975", name: "application-mail" },
+        { code: "\e976", name: "application-medicine-box" },
+        { code: "\e977", name: "logo-medium-circle" },
+        { code: "\e978", name: "logo-medium-square" },
+        { code: "\e979", name: "application-meh" },
+        { code: "\e97a", name: "application-message" },
+        { code: "\e97b", name: "application-mobile" },
+        { code: "\e97c", name: "application-money-collect" },
+        { code: "\e97d", name: "application-notification" },
+        { code: "\e97e", name: "application-phone" },
+        { code: "\e97f", name: "application-picture" },
+        { code: "\e980", name: "application-play-square" },
+        { code: "\e981", name: "application-pound-circle" },
+        { code: "\e982", name: "application-printer" },
+        { code: "\e983", name: "application-profile" },
+        { code: "\e984", name: "application-project" },
+        { code: "\e985", name: "application-pushpin" },
+        { code: "\e986", name: "application-property-safety" },
+        { code: "\e987", name: "application-qq-circle" },
+        { code: "\e988", name: "application-qq-square" },
+        { code: "\e989", name: "application-read" },
+        { code: "\e98a", name: "application-reconciliation" },
+        { code: "\e98b", name: "application-red-envelope" },
+        { code: "\e98c", name: "application-reddit-circle" },
+        { code: "\e98d", name: "application-reddit-square" },
+        { code: "\e98e", name: "application-rest" },
+        { code: "\e98f", name: "application-rocket" },
+        { code: "\e990", name: "application-safety-certificate" },
+        { code: "\e991", name: "application-save" },
+        { code: "\e992", name: "application-schedule" },
+        { code: "\e993", name: "application-security-scan" },
+        { code: "\e994", name: "application-setting" },
+        { code: "\e995", name: "application-shop" },
+        { code: "\e996", name: "application-shopping" },
+        { code: "\e997", name: "logo-sketch-circle" },
+        { code: "\e998", name: "application-skin" },
+        { code: "\e999", name: "logo-slack-circle" },
+        { code: "\e99a", name: "application-smile" },
+        { code: "\e99b", name: "application-sound" },
+        { code: "\e99c", name: "application-star" },
+        { code: "\e99d", name: "application-switcher" },
+        { code: "\e99e", name: "application-tablet" },
+        { code: "\e99f", name: "application-tag" },
+        { code: "\e9a0", name: "application-tags" },
+        { code: "\e9a1", name: "application-tool" },
+        { code: "\e9a2", name: "application-thunderbolt" },
+        { code: "\e9a3", name: "application-trademark-circle" },
+        { code: "\e9a4", name: "logo-twitter-circle" },
+        { code: "\e9a5", name: "application-trophy" },
+        { code: "\e9a6", name: "logo-twitter-square" },
+        { code: "\e9a7", name: "application-unlock" },
+        { code: "\e9a8", name: "application-usb" },
+        { code: "\e9a9", name: "application-video-camera" },
+        { code: "\e9aa", name: "application-wallet" },
+      ];
+      // Font files to test
+      const fontFiles = [
+        "IconFont.ttf",
+        "IconFont.woff",
+        "IconFont.woff2",
+        "IconFont_old.ttf",
+        "IconFont_old.woff",
+        "IconFont_old.woff2",
+        "asset.IconFont.48ba1881.ttf",
+        "asset.IconFont.3911ba7c.woff",
+        "asset.IconFont.38a9a86e.woff2",
+        "bpmn.eot",
+        "bpmn.ttf",
+        "bpmn.woff",
+        "bpmn.woff2",
+        "polestar.eot",
+        "polestar.ttf",
+        "polestar.woff",
+        "polestar.woff2",
+        "SpoqaHanSansNeo-Thin.ttf",
+        "SpoqaHanSansNeo-Bold.ttf",
+        "SpoqaHanSansNeo-Light.ttf",
+        "SpoqaHanSansNeo-Medium.ttf",
+        "SpoqaHanSansNeo-Regular.ttf",
+        "RobotoMono-VariableFont_wght.ttf",
+        "D2Coding.ttf",
+        "NanumSquareNeo-Variable.woff",
+        "PretendardVariable.woff2",
+        "SpoqaHanSansNeo-Thin.woff",
+        "SpoqaHanSansNeo-Light.woff",
+        "SpoqaHanSansNeo-Regular.woff",
+        "SpoqaHanSansNeo-Bold.woff",
+        "SpoqaHanSansNeo-Medium.woff",
+      ];
+      // Dynamically create @font-face for each font file
+      function injectFontFace(fontFile, fontFamily) {
+        const style = document.createElement("style");
+        let format = "";
+        if (fontFile.endsWith(".ttf")) format = "truetype";
+        else if (fontFile.endsWith(".woff2")) format = "woff2";
+        else if (fontFile.endsWith(".woff")) format = "woff";
+        else if (fontFile.endsWith(".eot")) format = "embedded-opentype";
+        else format = "";
+        style.innerHTML = `@font-face { font-family: '${fontFamily}'; src: url('./${fontFile}') format('${format}'); }`;
+        document.head.appendChild(style);
+      }
+
+      function createFontTest(fontFile, idx) {
+        const fontFamily = `font-test-${idx}`;
+        injectFontFace(fontFile, fontFamily);
+        const container = document.getElementById("font-tests");
+        const section = document.createElement("div");
+        section.className = "font-section";
+        const title = document.createElement("div");
+        title.className = "font-title";
+        title.textContent = fontFile;
+        const grid = document.createElement("div");
+        grid.className = "icon-grid";
+        testIcons.forEach((iconData) => {
+          const item = document.createElement("div");
+          item.className = "icon-item";
+          const icon = document.createElement("div");
+          icon.className = `icon`;
+          icon.style.fontFamily = fontFamily;
+          icon.innerHTML = String.fromCharCode(
+            parseInt(iconData.code.replace("\\e", ""), 16)
+          );
+          const name = document.createElement("div");
+          name.className = "icon-name";
+          name.textContent = iconData.name;
+          item.appendChild(icon);
+          item.appendChild(name);
+          grid.appendChild(item);
+        });
+        section.appendChild(title);
+        section.appendChild(grid);
+        container.appendChild(section);
+      }
+      fontFiles.forEach(createFontTest);
+    </script>
+  </body>
+</html>
